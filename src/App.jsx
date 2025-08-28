@@ -1,10 +1,8 @@
 import { useState } from 'react'
-
 import initialEmails from './data/emails'
-
 import './styles/App.css'
-
 import Emails from './components/Emails'
+import EmailDetail from './components/EmailDetail'
 
 const getReadEmails = emails => emails.filter(email => !email.read)
 
@@ -15,6 +13,7 @@ function App() {
   const [hideRead, setHideRead] = useState(false)
   const [currentTab, setCurrentTab] = useState('inbox')
   const [searchQuery, setSearchQuery] = useState('') 
+  const [openedEmail, setOpenedEmail] = useState(null)
 
   const unreadEmails = emails.filter(email => !email.read)
   const starredEmails = emails.filter(email => email.starred)
@@ -37,6 +36,11 @@ function App() {
     setEmails(updatedEmails)
   }
 
+  const openEmail = email => {
+    setOpenedEmail(email)
+  }
+
+  // filtering
   let filteredEmails = emails
 
   if (hideRead) filteredEmails = getReadEmails(filteredEmails)
@@ -98,12 +102,20 @@ function App() {
         </ul>
       </nav>
       <main className="emails">
-        {/* Render the emails component */}
+        {/* If an email is opened, show the detail. Otherwise, show the Emails component. */}
+        {openedEmail ? (
+          <EmailDetail
+            email={openedEmail}
+            onBack={() => setOpenedEmail(null)}
+          />
+        ) : (
           <Emails
             emails={filteredEmails}
             onToggleRead={toggleRead}
             onToggleStar={toggleStar}
+            onOpenEmail={openEmail}
           />
+        )}
       </main>
     </div>
   )
