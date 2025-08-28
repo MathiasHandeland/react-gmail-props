@@ -79,19 +79,19 @@ function App() {
             className={`item ${currentTab === 'inbox' ? 'active' : ''}`}
             onClick={() => setCurrentTab('inbox')}
           >
-            <span className="label">Inbox</span>
+            <span className="label"><strong>Inbox</strong></span>
             <span className="count">{unreadEmails.length}</span>
           </li>
           <li
             className={`item ${currentTab === 'starred' ? 'active' : ''}`}
             onClick={() => setCurrentTab('starred')}
           >
-            <span className="label">Starred</span>
+            <span className="label"><strong>Starred</strong></span>
             <span className="count">{starredEmails.length}</span>
           </li>
 
           <li className="item toggle">
-            <label htmlFor="hide-read">Hide read</label>
+            <label htmlFor="hide-read"><strong>Hide read</strong></label>
             <input
               id="hide-read"
               type="checkbox"

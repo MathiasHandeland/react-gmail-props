@@ -6,25 +6,21 @@ function Email ({ email, onToggleRead, onToggleStar, onOpenEmail }) {
        >
         <div className="select">
             <input
-            className="select-checkbox"
-            type="checkbox"
-            checked={email.read}
-            onChange={(e) => {
-                e.stopPropagation()
-                onToggleRead(email)
-            }}
+                className="select-checkbox"
+                type="checkbox"
+                checked={email.read}
+                onClick={(e) => {e.stopPropagation() }}
+                onChange={() => onToggleRead(email)}
             />
         </div>
         <div className="star">
-        <input
-            className="star-checkbox"
-            type="checkbox"
-            checked={email.starred}
-            onChange={(e) => {
-                e.stopPropagation()
-                onToggleStar(email)
-            }}
-        />
+            <input
+                className="star-checkbox"
+                type="checkbox"
+                checked={email.starred}
+                onClick={(e) => e.stopPropagation()}   
+                onChange={() => onToggleStar(email)}
+            />
         </div>
         <div className="sender">{email.sender}</div>
         <div className="title">{email.title}</div>
