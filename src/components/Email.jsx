@@ -1,3 +1,4 @@
+import '../styles/Email.css'
 
 function Email ({ email, onToggleRead, onToggleStar, onOpenEmail }) {
     return (

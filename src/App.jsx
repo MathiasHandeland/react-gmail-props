@@ -14,6 +14,7 @@ function App() {
   const [currentTab, setCurrentTab] = useState('inbox')
   const [searchQuery, setSearchQuery] = useState('') 
   const [openedEmail, setOpenedEmail] = useState(null)
+  const [sortBy, setSortBy] = useState('newest')
 
   const unreadEmails = emails.filter(email => !email.read)
   const starredEmails = emails.filter(email => email.starred)
@@ -40,6 +41,12 @@ function App() {
     setOpenedEmail(email)
   }
 
+  const toggleAllRead = () => {
+    const allRead = emails.every(email => email.read)
+    const updatedEmails = emails.map(email => ({ ...email, read: !allRead }))
+    setEmails(updatedEmails)
+  }
+
   // filtering
   let filteredEmails = emails
 
@@ -52,6 +59,22 @@ function App() {
   if (searchQuery) {
     filteredEmails = filteredEmails.filter(email =>
       email.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  }
+
+  // sorting
+  if (sortBy === "newest") {
+    filteredEmails = [...filteredEmails].sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    )
+  } 
+  else if (sortBy === "oldest") {
+    filteredEmails = [...filteredEmails].sort(
+      (a, b) => new Date(a.date) - new Date(b.date)
+    )
+  } else if (sortBy === "starred") {
+    filteredEmails = [...filteredEmails].sort(
+      (a, b) => b.starred - a.starred
     )
   }
 
@@ -71,6 +94,18 @@ function App() {
 
         <div className="search">
           <input className="search-bar" placeholder="Search mail" onChange = {e => setSearchQuery(e.target.value)} value = {searchQuery} />
+        </div>
+
+        <div className="sort">
+          <select 
+            value={sortBy} 
+            onChange={(e) => setSortBy(e.target.value)}
+            className="sort-dropdown"
+          >
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="starred">Starred</option>
+          </select>
         </div>
       </header>
       <nav className="left-menu">
@@ -98,6 +133,11 @@ function App() {
               checked={hideRead}
               onChange={e => setHideRead(e.target.checked)}
             />
+          </li>
+          <li className="item toggle">
+            <button className="mark-all-button" onClick={() => { toggleAllRead() }}>
+              {emails.every(email => email.read) ? "Mark all as unread" : "Mark all asread"}
+            </button>
           </li>
         </ul>
       </nav>

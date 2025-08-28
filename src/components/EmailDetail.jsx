@@ -1,3 +1,5 @@
+import '../styles/EmailDetail.css'
+
 function EmailDetail({ email, onBack }) {
     return (
         <div className="email-detail">
